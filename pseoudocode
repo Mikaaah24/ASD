@@ -1,0 +1,54 @@
+*Pseudocode* 
+BEGIN
+    Scanner scanner = new Scanner(System.in)
+    N = scanner.nextInt()
+    M = scanner.nextInt()
+    scanner.nextLine()  // Consume newline
+    
+    // Initialize list of sets for each train carriage
+    List of Sets gerbong = new ArrayList()
+    FOR i = 0 TO N-1 DO
+        gerbong.add(new HashSet())
+    END FOR
+    
+    List results = new ArrayList()
+    personId = 1  // Initialize unique ID for each person
+    
+    FOR i = 0 TO M-1 DO
+        line = scanner.nextLine()
+        parts = line.split(" ")
+        tipe = Integer.parseInt(parts[0])
+        
+        IF tipe == 1 THEN
+            X = Integer.parseInt(parts[1]) - 1  // Carriage (0-indexed)
+            Y = Integer.parseInt(parts[2])
+            // Add person to set in carriage X with unique ID
+            FOR j = 0 TO Y-1 DO
+                gerbong.get(X).add(personId)
+                personId = personId + 1
+            END FOR
+            
+        ELSE IF tipe == 2 THEN
+            A = Integer.parseInt(parts[1]) - 1  // Start of first interval (0-indexed)
+            B = Integer.parseInt(parts[2]) - 1  // End of first interval (0-indexed)
+            C = Integer.parseInt(parts[3]) - 1  // Start of second interval (0-indexed)
+            D = Integer.parseInt(parts[4]) - 1  // End of second interval (0-indexed)
+            
+            Set uniquePeople = new HashSet()
+            // Combine sets for interval [A, B]
+            FOR j = A TO B DO
+                uniquePeople.addAll(gerbong.get(j))
+            END FOR
+            // Combine sets for interval [C, D]
+            FOR j = C TO D DO
+                uniquePeople.addAll(gerbong.get(j))
+            END FOR
+            
+            results.add(uniquePeople.size())
+        END IF
+    END FOR
+    
+    FOR result in results DO
+        PRINT result
+    END FOR
+END
