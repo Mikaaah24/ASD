@@ -1,0 +1,18 @@
+import java.util.*;
+
+public class UASASD {
+
+    public static void main(String[] args) {
+        try (Scanner scanner = new Scanner(System.in)) {
+            int N = scanner.nextInt();
+            int M = scanner.nextInt();
+            scanner.nextLine();  // Consume newline
+            
+            // Inisialisasi list of sets untuk setiap gerbong
+            List<Set<Integer>> gerbong = new ArrayList<>();
+            for (int i = 0; i < N; i++) {
+                gerbong.add(new HashSet<>());
+            }
+            
+            List<Integer> results = new ArrayList<>();
+            int personId = 1;  // Inisialisasi ID unik untuk setiap orang
