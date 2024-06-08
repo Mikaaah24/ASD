@@ -1,0 +1,10 @@
+results.add(uniquePeople.size());
+                }
+            }
+            
+            for (int result : results) {
+                System.out.println(result);
+            }
+        }
+    }
+}
