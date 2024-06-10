@@ -1,0 +1,73 @@
+Perhitungan Kompleksitas
+Inisialisasi:
+
+try (Scanner scanner = new Scanner(System.in)) { - O(1)
+int N = scanner.nextInt(); - O(1)
+int M = scanner.nextInt(); - O(1)
+scanner.nextLine(); - O(1)
+Total: O(1)
+Inisialisasi List of Sets:
+
+List<Set<Integer>> gerbong = new ArrayList<>(); - O(1)
+for (int i = 0; i < N; i++) { - O(N)
+gerbong.add(new HashSet<>()); - O(1) per iterasi, total O(N)
+Total: O(N)
+Inisialisasi List Hasil dan ID Orang:
+
+List<Integer> results = new ArrayList<>(); - O(1)
+int personId = 1; - O(1)
+Total: O(1)
+Proses Setiap Perintah:
+
+for (int i = 0; i < M; i++) { - O(M)
+String line = scanner.nextLine(); - O(1)
+
+String[] parts = line.split(" "); - O(1) rata-rata
+
+int tipe = Integer.parseInt(parts[0]); - O(1)
+
+Jika tipe == 1:
+
+int X = Integer.parseInt(parts[1]) - 1; - O(1)
+int Y = Integer.parseInt(parts[2]); - O(1)
+for (int j = 0; j < Y; j++) { - O(Y)
+gerbong.get(X).add(personId++); - O(1) rata-rata per penambahan, O(Y) total
+Total per perintah tipe 1: O(Y)
+Jika tipe == 2:
+
+int A = Integer.parseInt(parts[1]) - 1; - O(1)
+int B = Integer.parseInt(parts[2]) - 1; - O(1)
+int C = Integer.parseInt(parts[3]) - 1; - O(1)
+int D = Integer.parseInt(parts[4]) - 1; - O(1)
+Set<Integer> uniquePeople = new HashSet<>(); - O(1)
+for (int j = A; j <= B; j++) { - O(B - A + 1)
+uniquePeople.addAll(gerbong.get(j)); - O(gerbong.get(j).size()) per set, total O(Σ|gerbong.get(j)|) untuk semua j dari A hingga B
+for (int j = C; j <= D; j++) { - O(D - C + 1)
+uniquePeople.addAll(gerbong.get(j)); - O(gerbong.get(j).size()) per set, total O(Σ|gerbong.get(j)|) untuk semua j dari C hingga D
+results.add(uniquePeople.size()); - O(1)
+Total per perintah tipe 2: O(B - A + 1 + D - C + 1 + Σ|gerbong.get(j)|)
+Cetak Hasil:
+
+for (int result : results) { - O(R) dimana R adalah ukuran dari results (≤ M)
+System.out.println(result); - O(1) per cetak, O(R) total
+Total: O(R)
+Kompleksitas Total
+Untuk menggabungkan semua perhitungan, kita fokus pada loop utama yang memproses M perintah dan analisis kompleksitas untuk setiap tipe perintah:
+
+Total untuk tipe 1:
+
+Rata-rata: O(Y) per perintah, jadi total O(M * Y) dalam kasus terburuk jika semua perintah adalah tipe 1.
+Total untuk tipe 2:
+
+Rata-rata: O(B - A + 1 + D - C + 1 + Σ|gerbong.get(j)|) per perintah
+Jika interval mencakup semua gerbong dan setiap set gerbong berisi sekitar p elemen:
+O(B - A + 1) + O(D - C + 1) = O(N) dalam kasus terburuk.
+Gabungan set: O(N * p) dalam kasus terburuk jika semua gerbong terisi penuh.
+Total dalam kasus terburuk: O(M * N * p)
+Kesimpulan Kompleksitas
+Inisialisasi: O(N)
+Pengolahan perintah:
+tipe 1: O(M * Y)
+tipe 2: O(M * N * p)
+Cetak hasil: O(M)
+total O(M * N * p)
