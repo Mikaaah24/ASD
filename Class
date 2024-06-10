@@ -1,0 +1,56 @@
+public class UASASD {
+
+    public static void main(String[] args) {
+        try (Scanner scanner = new Scanner(System.in)) {   // O(1)
+            int N = scanner.nextInt();                    // O(1)
+            int M = scanner.nextInt();                    // O(1)
+            scanner.nextLine();  // Consume newline       // O(1)
+            
+            // Inisialisasi list of sets untuk setiap gerbong
+            List<Set<Integer>> gerbong = new ArrayList<>();   // O(1)
+            for (int i = 0; i < N; i++) {                    // O(N)
+                gerbong.add(new HashSet<>());                // O(1) untuk setiap penambahan, jadi totalnya O(N)
+            }
+            
+            List<Integer> results = new ArrayList<>();   // O(1)
+            int personId = 1;  // Inisialisasi ID unik untuk setiap orang   // O(1)
+            
+            for (int i = 0; i < M; i++) {                 // O(M)
+                String line = scanner.nextLine();         // O(1)
+                String[] parts = line.split(" ");         // O(1) rata-rata
+                int tipe = Integer.parseInt(parts[0]);    // O(1)
+                
+                if (tipe == 1) {                          // O(1)
+                    int X = Integer.parseInt(parts[1]) - 1;  // O(1)
+                    int Y = Integer.parseInt(parts[2]);      // O(1)
+                    // Tambahkan orang ke set di gerbong X dengan ID unik
+                    for (int j = 0; j < Y; j++) {            // O(Y)
+                        gerbong.get(X).add(personId++);      // O(1) rata-rata setiap penambahan, jadi totalnya O(Y)
+                    }
+                    
+                } else if (tipe == 2) {                   // O(1)
+                    int A = Integer.parseInt(parts[1]) - 1;  // O(1)
+                    int B = Integer.parseInt(parts[2]) - 1;  // O(1)
+                    int C = Integer.parseInt(parts[3]) - 1;  // O(1)
+                    int D = Integer.parseInt(parts[4]) - 1;  // O(1)
+                    
+                    Set<Integer> uniquePeople = new HashSet<>(); // O(1)
+                    // Gabungkan set untuk interval [A, B]
+                    for (int j = A; j <= B; j++) {            // O(B - A + 1)
+                        uniquePeople.addAll(gerbong.get(j));  // O(gerbong.get(j).size()) setiap penambahan
+                    }
+                    // Gabungkan set untuk interval [C, D]
+                    for (int j = C; j <= D; j++) {            // O(D - C + 1)
+                        uniquePeople.addAll(gerbong.get(j));  // O(gerbong.get(j).size()) setiap penambahan
+                    }
+                    
+                    results.add(uniquePeople.size());     // O(1)
+                }
+            }
+            
+            for (int result : results) {                  // O(R) dengan R adalah hasil (≤ M)
+                System.out.println(result);               // O(1) setiap satu hasil, jadi totalnya O(R)
+            }
+        }
+    }
+}
